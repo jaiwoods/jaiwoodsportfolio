@@ -582,7 +582,7 @@ globe.pointOfView({ lat: 34.41, lng: -119.86, altitude: 2.5 }, 0);
 const globeMaterial = globe.globeMaterial();
 if (typeof THREE !== 'undefined') {
   globeMaterial.emissive = new THREE.Color(0x226688);
-  globeMaterial.emissiveIntensity = 0.25;
+  globeMaterial.emissiveIntensity = 0.75;
 }
 
 function handleResize() { globe.width(container.offsetWidth); globe.height(container.offsetHeight); }
