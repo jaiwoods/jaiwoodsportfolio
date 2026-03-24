@@ -516,68 +516,28 @@ const globe = Globe()
   .backgroundImageUrl('https://unpkg.com/three-globe/example/img/night-sky.png')
   .atmosphereColor('#4fc3f7')
   .atmosphereAltitude(0.2)
-  // Animated beacon markers
+  // 3D beacon columns (perpendicular to surface)
+  .pointsData(locations)
+  .pointLat('lat')
+  .pointLng('lng')
+  .pointAltitude(0.22)
+  .pointRadius(0.25)
+  .pointColor('color')
+  .pointResolution(6)
+  .onPointClick(d => showCard(d))
+  // Clickable HTML labels at top of beacons
   .htmlElementsData(locations)
   .htmlLat('lat')
   .htmlLng('lng')
-  .htmlAltitude(0.005)
+  .htmlAltitude(0.23)
   .htmlElement(d => {
     const wrapper = document.createElement('div');
-    wrapper.style.cssText = 'position:relative;cursor:pointer;display:flex;flex-direction:column;align-items:center;';
-
-    // Light beam shooting up
-    const beam = document.createElement('div');
-    beam.style.cssText = `
-      width:2px; height:60px; position:absolute; bottom:4px; left:50%; transform:translateX(-50%);
-      background:linear-gradient(to top, ${d.color}, transparent);
-      opacity:0.5; animation: beacon-shoot 2.5s ease-out infinite;
-      pointer-events:none;
-    `;
-
-    // Glowing core dot
-    const core = document.createElement('div');
-    core.style.cssText = `
-      width:8px; height:8px; border-radius:50%;
-      background:${d.color};
-      box-shadow: 0 0 8px ${d.color}, 0 0 16px ${d.color}44, 0 0 24px ${d.color}22;
-      animation: beacon-pulse 2s ease-in-out infinite;
-      position:relative; z-index:2;
-    `;
-
-    // Expanding ring
-    const ring = document.createElement('div');
-    ring.style.cssText = `
-      position:absolute; bottom:0; left:50%; transform:translate(-50%, 50%);
-      border-radius:50%; border:1px solid ${d.color};
-      animation: beacon-ring 2.5s ease-out infinite;
-      pointer-events:none;
-    `;
-
-    // Label
+    wrapper.style.cssText = 'cursor:pointer;display:flex;flex-direction:column;align-items:center;';
     const label = document.createElement('div');
     label.textContent = d.label;
-    label.style.cssText = 'position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);white-space:nowrap;font-family:Outfit,sans-serif;font-size:10px;color:#e8e8f0;background:rgba(12,12,20,0.8);padding:2px 8px;border-radius:3px;pointer-events:none;letter-spacing:0.5px;';
-
-    wrapper.appendChild(beam);
-    wrapper.appendChild(core);
-    wrapper.appendChild(ring);
+    label.style.cssText = 'white-space:nowrap;font-family:Outfit,sans-serif;font-size:11px;font-weight:500;color:#fff;background:rgba(12,12,20,0.85);padding:3px 10px;border-radius:4px;pointer-events:none;letter-spacing:0.5px;border:1px solid ' + d.color + '44;text-shadow:0 0 8px ' + d.color + ';';
     wrapper.appendChild(label);
-
-    // Hover effect
-    wrapper.onmouseenter = () => {
-      core.style.transform = 'scale(1.6)';
-      core.style.boxShadow = `0 0 12px ${d.color}, 0 0 24px ${d.color}66, 0 0 40px ${d.color}33`;
-      beam.style.opacity = '0.9';
-      beam.style.height = '80px';
-    };
-    wrapper.onmouseleave = () => {
-      core.style.transform = 'scale(1)';
-      core.style.boxShadow = `0 0 8px ${d.color}, 0 0 16px ${d.color}44, 0 0 24px ${d.color}22`;
-      beam.style.opacity = '0.5';
-      beam.style.height = '60px';
-    };
     wrapper.onclick = () => showCard(d);
-
     return wrapper;
   })
   // Arcs
@@ -589,6 +549,30 @@ const globe = Globe()
   .arcDashAnimateTime(2500)
   .arcAltitudeAutoScale(0.4)
   (container);
+
+// Make the beacon columns glow by replacing material with emissive
+const scene = globe.scene();
+setTimeout(() => {
+  if (typeof THREE !== 'undefined') {
+    scene.traverse((obj) => {
+      if (obj.isMesh && obj.__globeObjType === 'points') {
+        // Skip — Globe.gl doesn't tag these easily
+      }
+    });
+  }
+}, 500);
+
+// Animate beacon height pulsing
+let pulseDir = 1;
+let pulseVal = 0.22;
+function animateBeacons() {
+  pulseVal += 0.0008 * pulseDir;
+  if (pulseVal > 0.26) pulseDir = -1;
+  if (pulseVal < 0.20) pulseDir = 1;
+  globe.pointAltitude(pulseVal);
+  requestAnimationFrame(animateBeacons);
+}
+animateBeacons();
 
 globe.controls().autoRotate = false;
 globe.controls().enableZoom = true;
