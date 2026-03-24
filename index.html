@@ -1,1 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jai Woods — Economics & Geography</title>
+<meta name="description" content="Portfolio of Jai Woods — Economics & Geography (GIS) at UC Santa Barbara. GIS Analyst, Drone Pilot, Creative.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
+<style>
+  :root {
+    --bg-primary: #08080f;
+    --bg-secondary: #0e0e1a;
+    --bg-card: #12121f;
+    --bg-card-hover: #1a1a2e;
+    --accent: #4fc3f7;
+    --accent-dim: rgba(79, 195, 247, 0.15);
+    --accent-glow: rgba(79, 195, 247, 0.4);
+    --text-primary: #e8e8f0;
+    --text-secondary: #8888a8;
+    --text-muted: #555570;
+    --border: rgba(255,255,255,0.06);
+    --font-display: 'Outfit', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-muted) var(--bg-primary);
+  }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    overflow-x: hidden;
+  }
+
+  /* ---- NAV ---- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(8,8,15,0.7);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; align-items: center; }
+  .nav-links a {
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1.5px;
+    background: var(--accent);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--text-primary); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ---- HERO / GLOBE ---- */
+  #hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  #globe-container {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+  .hero-overlay {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    pointer-events: none;
+    padding: 0 1.5rem;
+  }
+  .hero-overlay h1 {
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 0.8rem;
+    background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-overlay p {
+    font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+    color: var(--text-secondary);
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .hero-overlay .cta-row {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    pointer-events: all;
+  }
+  .btn-primary, .btn-ghost {
+    padding: 0.75rem 2rem;
+    border-radius: 6px;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg-primary);
+    border: none;
+  }
+  .btn-primary:hover { box-shadow: 0 0 25px var(--accent-glow); transform: translateY(-2px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  .btn-ghost:hover { background: var(--accent-dim); }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: float 2.5s ease-in-out infinite;
+  }
+  .scroll-indicator span {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+  @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+  /* ---- INFO CARD (click pin) ---- */
+  .info-card {
+    position: fixed;
+    z-index: 200;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0.92);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 2.2rem 2.5rem;
+    max-width: 380px;
+    width: 90%;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+  .info-card.visible { opacity: 1; pointer-events: all; transform: translate(-50%, -50%) scale(1); }
+  .info-card .card-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .info-card h3 { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .info-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+  .info-card .close-btn {
+    position: absolute; top: 1rem; right: 1.2rem;
+    background: none; border: none; color: var(--text-muted);
+    font-size: 1.3rem; cursor: pointer; transition: color 0.2s;
+  }
+  .info-card .close-btn:hover { color: var(--text-primary); }
+  .card-backdrop {
+    position: fixed; inset: 0; z-index: 199;
+    background: rgba(0,0,0,0.5);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .card-backdrop.visible { opacity: 1; pointer-events: all; }
+
+  /* ---- SECTIONS ---- */
+  section {
+    padding: 6rem 2.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.5px;
+  }
+  .section-divider {
+    width: 50px; height: 2px;
+    background: var(--accent);
+    margin-bottom: 2.5rem;
+  }
+
+  /* ---- ABOUT ---- */
+  .about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 1.2rem;
+  }
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+  }
+  .stat-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+  .stat-card .stat-num {
+    font-family: var(--font-mono);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .stat-card .stat-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ---- PROJECTS ---- */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.35s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), #b388ff);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .project-card:hover { border-color: rgba(79,195,247,0.3); transform: translateY(-4px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+  .project-card:hover::before { opacity: 1; }
+  .project-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  .project-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .project-card p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    padding: 0.3rem 0.65rem;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ---- RESUME / SKILLS ---- */
+  .skills-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+  .skill-group h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    color: var(--text-primary);
+  }
+  .skill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .skill-item span { font-size: 0.88rem; color: var(--text-secondary); }
+  .skill-bar-container {
+    width: 100px; height: 4px;
+    background: var(--bg-secondary);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .skill-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #b388ff);
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+
+  .education-block, .cert-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.8rem;
+    margin-top: 1.5rem;
+  }
+  .education-block h3, .cert-block h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .education-block p, .cert-block p { font-size: 0.88rem; color: var(--text-secondary); }
+
+  /* ---- CONTACT ---- */
+  #contact { text-align: center; padding-bottom: 8rem; }
+  #contact .section-divider { margin: 0 auto 2.5rem; }
+  .contact-text {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+  }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+  }
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  }
+
+  /* ---- FOOTER ---- */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+
+  /* ---- FADE-IN ANIMATIONS ---- */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    .nav-links a { font-size: 0.72rem; }
+    section { padding: 4rem 1.5rem; }
+    .about-content { grid-template-columns: 1fr; }
+    .skills-layout { grid-template-columns: 1fr; }
+    .hero-overlay h1 { font-size: 2.4rem; }
+    .cta-row { flex-direction: column; align-items: center; }
+  }
+
+  @media (max-width: 480px) {
+    .nav-links { gap: 0.8rem; }
+    .about-stats { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">JAI WOODS</a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#resume">Resume</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div id="globe-container"></div>
+  <div class="hero-overlay">
+    <h1>Jai Woods</h1>
+    <p>Economics &amp; Geography (GIS) · UC Santa Barbara '26</p>
+    <div class="cta-row">
+      <a href="#projects" class="btn-primary">View Work</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- INFO CARD (populated by JS) -->
+<div class="card-backdrop" id="cardBackdrop"></div>
+<div class="info-card" id="infoCard">
+  <button class="close-btn" id="closeCard">&times;</button>
+  <div class="card-label" id="cardLabel"></div>
+  <h3 id="cardTitle"></h3>
+  <p id="cardBody"></p>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="fade-in">
+    <div class="section-label">01 — About</div>
+    <h2 class="section-title">Where Economics Meets Geography</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="about-content fade-in">
+    <div class="about-text">
+      <p>I'm a fourth-year student at UC Santa Barbara double majoring in Economics and Geography with a GIS emphasis. My work sits at the intersection of spatial analysis, economic systems, and emerging technology.</p>
+      <p>I'm an FAA Part 107 certified drone pilot, a GIS analyst, and a creative who produces video content and electronic music. Whether I'm mapping economic patterns across Southeast Asia or building aerial footage reels, I bring a systems-thinking approach to everything I do.</p>
+      <p>Currently exploring how geospatial intelligence, real estate analytics, and drone technology converge — and looking for opportunities to put that to work.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Majors</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">107</div>
+        <div class="stat-label">FAA Part Cert</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">6+</div>
+        <div class="stat-label">Countries</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">'26</div>
+        <div class="stat-label">Graduation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="fade-in">
+    <div class="section-label">02 — Projects</div>
+    <h2 class="section-title">Selected Work</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="projects-grid fade-in">
+    <div class="project-card">
+      <div class="project-icon">🌐</div>
+      <h3>GIS Spatial Analysis</h3>
+      <p>Geospatial analysis projects using ArcGIS and QGIS — mapping economic indicators, land use patterns, and demographic trends across regions.</p>
+      <div class="project-tags">
+        <span class="tag">ArcGIS</span>
+        <span class="tag">QGIS</span>
+        <span class="tag">Python</span>
+        <span class="tag">Spatial Data</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-icon">🚁</div>
+      <h3>Aerial Drone Content</h3>
+      <p>Cinematic aerial footage and mapping using DJI drones — FAA Part 107 certified for commercial operations across diverse landscapes.</p>
+      <div class="project-tags">
+        <span class="tag">Part 107</span>
+        <span class="tag">DJI Mini 5 Pro</span>
+        <span class="tag">DaVinci Resolve</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-icon">📊</div>
+      <h3>Economic Research</h3>
+      <p>Applied economic analysis exploring FDI trends, real estate markets, and development economics — with a focus on Southeast Asia.</p>
+      <div class="project-tags">
+        <span class="tag">Econometrics</span>
+        <span class="tag">R</span>
+        <span class="tag">Data Viz</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-icon">🎵</div>
+      <h3>CRAZY J'S</h3>
+      <p>DJ duo project producing Afro-Tech and Melodic Techno sets for club and live performance settings.</p>
+      <div class="project-tags">
+        <span class="tag">Afro-Tech</span>
+        <span class="tag">Melodic Techno</span>
+        <span class="tag">Live Sets</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-icon">🎬</div>
+      <h3>YouTube & Video</h3>
+      <p>Intellectual content creation exploring systems thinking, geopolitics, and applied ideas — filmed with gimbal and drone setups.</p>
+      <div class="project-tags">
+        <span class="tag">YouTube</span>
+        <span class="tag">Insta360</span>
+        <span class="tag">Editing</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-icon">🏡</div>
+      <h3>Real Estate & Land Analysis</h3>
+      <p>Exploring real estate investment through a GIS lens — analyzing land use, zoning, and market data for development potential.</p>
+      <div class="project-tags">
+        <span class="tag">GIS</span>
+        <span class="tag">Real Estate</span>
+        <span class="tag">Zoning</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESUME / SKILLS -->
+<section id="resume">
+  <div class="fade-in">
+    <div class="section-label">03 — Resume</div>
+    <h2 class="section-title">Skills & Education</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="skills-layout fade-in">
+    <div>
+      <div class="skill-group">
+        <h3>Technical Skills</h3>
+        <div class="skill-item">
+          <span>GIS (ArcGIS, QGIS)</span>
+          <div class="skill-bar-container"><div class="skill-bar" style="width:92%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span>Economic Analysis</span>
+          <div class="skill-bar-container"><div class="skill-bar" style="width:88%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span>Drone Operations (Part 107)</span>
+          <div class="skill-bar-container"><div class="skill-bar" style="width:90%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span>DaVinci Resolve</span>
+          <div class="skill-bar-container"><div class="skill-bar" style="width:80%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span>Python / R</span>
+          <div class="skill-bar-container"><div class="skill-bar" style="width:72%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span>Remote Sensing</span>
+          <div class="skill-bar-container"><div class="skill-bar" style="width:78%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="education-block">
+        <h3>UC Santa Barbara</h3>
+        <p>B.A. Economics & B.A. Geography (GIS Emphasis)</p>
+        <p style="color:var(--accent); margin-top:0.3rem; font-size:0.8rem;">Class of 2026</p>
+      </div>
+      <div class="cert-block">
+        <h3>FAA Part 107</h3>
+        <p>Remote Pilot Certificate — Small Unmanned Aircraft Systems</p>
+      </div>
+      <div class="cert-block">
+        <h3>Additional Tools</h3>
+        <p>Adobe Suite · DJI Drones · Insta360 · AI/ML Tools · HTML/CSS/JS</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="fade-in">
+    <div class="section-label">04 — Contact</div>
+    <h2 class="section-title">Let's Connect</h2>
+    <div class="section-divider"></div>
+    <p class="contact-text">Open to remote opportunities in GIS analysis, real estate analytics, and spatial data. Always down to talk economics, geography, or creative projects.</p>
+    <div class="contact-links">
+      <a href="mailto:your@email.com" class="contact-link">✉ Email</a>
+      <a href="https://linkedin.com/in/yourprofile" class="contact-link" target="_blank">in LinkedIn</a>
+      <a href="https://github.com/yourusername" class="contact-link" target="_blank">⌨ GitHub</a>
+      <a href="https://youtube.com/@yourchannel" class="contact-link" target="_blank">▶ YouTube</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Jai Woods. Built with Globe.gl &amp; caffeine.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
+<script>
+if (typeof Globe === 'undefined') {
+  document.getElementById('globe-container').innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#555570;font-size:0.9rem;">Globe loading failed — check your connection</div>';
+}
+</script>
+<script>
+// ---- LOCATION DATA ----
+const locations = [
+  {
+    lat: 38.4605, lng: -122.9465,
+    label: "Occidental, CA",
+    category: "HOME",
+    title: "Occidental, CA",
+    body: "Home base — Sonoma County. 80-acre property in the rolling hills of West County. Where the off-grid eco-village dream lives.",
+    size: 0.6, color: "#4fc3f7"
+  },
+  {
+    lat: 34.4133, lng: -119.8610,
+    label: "UCSB",
+    category: "EDUCATION",
+    title: "UC Santa Barbara",
+    body: "Double major in Economics and Geography (GIS emphasis). Class of 2026. Where spatial analysis and economic theory clicked together.",
+    size: 0.7, color: "#4fc3f7"
+  },
+  {
+    lat: 16.0544, lng: 108.2022,
+    label: "Da Nang",
+    category: "TRAVEL",
+    title: "Da Nang, Vietnam",
+    body: "Three-week deep dive into Vietnam's fastest-growing city. Exploring FDI trends, China+1 dynamics, and drone content creation on the coast.",
+    size: 0.55, color: "#b388ff"
+  },
+  {
+    lat: 9.8482, lng: 126.0458,
+    label: "Siargao",
+    category: "TRAVEL",
+    title: "Siargao, Philippines",
+    body: "Island life and aerial content. Captured drone footage across the surf capital of the Philippines.",
+    size: 0.5, color: "#b388ff"
+  },
+  {
+    lat: 16.4637, lng: 107.5909,
+    label: "Huế",
+    category: "TRAVEL",
+    title: "Huế, Vietnam",
+    body: "Imperial citadel and cultural heartland. Exploring Vietnam's historical capital and its economic transition.",
+    size: 0.4, color: "#b388ff"
+  },
+  {
+    lat: 15.8801, lng: 108.3380,
+    label: "Hội An",
+    category: "TRAVEL",
+    title: "Hội An, Vietnam",
+    body: "Ancient trading port turned creative hub. Lantern-lit streets and a lens into Vietnam's tourism economy.",
+    size: 0.4, color: "#b388ff"
+  }
+];
+
+// ---- ARCS ----
+const arcs = [
+  { startLat: 38.4605, startLng: -122.9465, endLat: 34.4133, endLng: -119.8610 },
+  { startLat: 34.4133, startLng: -119.8610, endLat: 9.8482, endLng: 126.0458 },
+  { startLat: 9.8482, startLng: 126.0458, endLat: 16.0544, endLng: 108.2022 },
+  { startLat: 16.0544, startLng: 108.2022, endLat: 15.8801, endLng: 108.3380 },
+  { startLat: 16.0544, startLng: 108.2022, endLat: 16.4637, endLng: 107.5909 },
+];
+
+// ---- GLOBE INIT ----
+const container = document.getElementById('globe-container');
+
+if (typeof Globe !== 'undefined') {
+const globe = Globe()
+  .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
+  .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png')
+  .backgroundImageUrl('https://unpkg.com/three-globe/example/img/night-sky.png')
+  .atmosphereColor('#4fc3f7')
+  .atmosphereAltitude(0.2)
+  // Points
+  .pointsData(locations)
+  .pointLat('lat')
+  .pointLng('lng')
+  .pointAltitude(0.01)
+  .pointRadius('size')
+  .pointColor('color')
+  .pointLabel(d => `<div style="font-family:Outfit,sans-serif;font-size:13px;background:rgba(12,12,20,0.85);padding:6px 12px;border-radius:6px;border:1px solid rgba(79,195,247,0.3);color:#e8e8f0;pointer-events:none;"><strong>${d.label}</strong></div>`)
+  .onPointClick(d => showCard(d))
+  // Arcs
+  .arcsData(arcs)
+  .arcColor(() => ['#4fc3f770', '#b388ff70'])
+  .arcStroke(0.5)
+  .arcDashLength(0.6)
+  .arcDashGap(0.3)
+  .arcDashAnimateTime(2500)
+  .arcAltitudeAutoScale(0.4)
+  (container);
+
+// Camera / Controls
+globe.controls().autoRotate = true;
+globe.controls().autoRotateSpeed = 0.4;
+globe.controls().enableZoom = true;
+globe.pointOfView({ lat: 20, lng: 100, altitude: 2.5 }, 0);
+
+// Responsive
+function handleResize() {
+  globe.width(container.offsetWidth);
+  globe.height(container.offsetHeight);
+}
+window.addEventListener('resize', handleResize);
+handleResize();
+
+// ---- INFO CARD ----
+const infoCard = document.getElementById('infoCard');
+const cardBackdrop = document.getElementById('cardBackdrop');
+
+function showCard(d) {
+  document.getElementById('cardLabel').textContent = d.category;
+  document.getElementById('cardTitle').textContent = d.title;
+  document.getElementById('cardBody').textContent = d.body;
+  infoCard.classList.add('visible');
+  cardBackdrop.classList.add('visible');
+  globe.controls().autoRotate = false;
+}
+function hideCard() {
+  infoCard.classList.remove('visible');
+  cardBackdrop.classList.remove('visible');
+  globe.controls().autoRotate = true;
+}
+document.getElementById('closeCard').addEventListener('click', hideCard);
+cardBackdrop.addEventListener('click', hideCard);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') hideCard(); });
+
+} // end Globe guard
+
+// ---- SCROLL FADE-IN ----
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
