@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jai Woods — Economics & Geography</title>
-<meta name="description" content="Portfolio of Jai Woods — Economics & Geography (GIS) at UC Santa Barbara. GIS Analyst, Creative.">
+<meta name="description" content="Portfolio of Jai Woods — Economics & Geography (GIS) at UC Santa Barbara. GIS Analyst, Economist, Creative.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -119,7 +119,7 @@
   .education-block p, .cert-block p, .experience-block p { font-size:0.88rem; color:var(--text-secondary); line-height:1.6; }
   .experience-block .exp-role { font-size:0.78rem; color:var(--accent); margin-top:0.2rem; margin-bottom:0.5rem; }
 
-  /* Tag-pill lists for coursework/tools */
+  /* Tag-pill lists */
   .pill-list { display:flex; flex-wrap:wrap; gap:0.45rem; margin-top:0.7rem; }
   .pill {
     font-family:var(--font-mono); font-size:0.68rem; padding:0.3rem 0.7rem;
@@ -143,6 +143,21 @@
 
   .fade-in { opacity:0; transform:translateY(30px); transition:opacity 0.8s ease,transform 0.8s ease; }
   .fade-in.visible { opacity:1; transform:translateY(0); }
+
+  /* BEACON ANIMATIONS */
+  @keyframes beacon-pulse {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.3); }
+  }
+  @keyframes beacon-shoot {
+    0% { height: 0; opacity: 0.8; }
+    40% { height: 60px; opacity: 0.6; }
+    100% { height: 60px; opacity: 0.3; }
+  }
+  @keyframes beacon-ring {
+    0% { width: 6px; height: 6px; opacity: 0.6; }
+    100% { width: 40px; height: 40px; opacity: 0; }
+  }
 
   @media (max-width:768px) {
     nav { padding:1rem 1.5rem; }
@@ -274,9 +289,9 @@
     <div class="project-card">
       <div class="project-icon">🎵</div>
       <h3>Electronic Music & DJing</h3>
-      <p>Hobby interest in electronic music production and DJ mixing — Afro-Tech and Melodic Techno genres.</p>
+      <p>Hobby interest in electronic music production and DJ mixing — afrohouse and Melodic Techno genres.</p>
       <div class="project-tags">
-        <span class="tag">Afro-Tech</span>
+        <span class="tag">Afrohouse</span>
         <span class="tag">Melodic Techno</span>
         <span class="tag">Music Production</span>
       </div>
@@ -294,8 +309,7 @@
   <div class="skills-layout fade-in">
     <div>
       <div class="skill-group">
-        <h3>Technical Proficiency</h3>
-
+        <h3>Skills</h3>
         <div class="skill-item">
           <span>GIS / Remote Sensing</span>
           <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div></div>
@@ -324,7 +338,6 @@
 
       <div class="skill-group" style="margin-top:2rem;">
         <h3>Programming Languages</h3>
-
         <div class="skill-item">
           <span>Python</span>
           <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div>
@@ -456,7 +469,7 @@
     <p class="contact-text">Open to remote opportunities in GIS analysis, real estate analytics, and spatial data. Always down to talk economics, geography, or creative projects.</p>
     <div class="contact-links">
       <a href="resume_april_2026.pdf" class="contact-link" target="_blank">✉ Email (on Resume)</a>
-      <a href="https://www.linkedin.com/in/jai-woods-3402a1229" class="contact-link" target="_blank">in LinkedIn</a>
+      <a href="https://www.linkedin.com/in/jai-woods-3402a1229" class="contact-link" target="_blank">LinkedIn</a>
       <a href="https://github.com/jaiwoods" class="contact-link" target="_blank">⌨ GitHub</a>
     </div>
   </div>
@@ -485,22 +498,17 @@ const locations = [
 ];
 
 const arcs = [
-  { startLat:38.4605, startLng:-122.9465, endLat:34.4133, endLng:-119.8610 },   // Sonoma → UCSB
-  { startLat:38.4605, startLng:-122.9465, endLat:41.6611, endLng:-91.5302 },     // Sonoma → Iowa City
-  { startLat:38.4605, startLng:-122.9465, endLat:47.6062, endLng:-122.3321 },    // Sonoma → Seattle
-  { startLat:34.4133, startLng:-119.8610, endLat:-36.8485, endLng:174.7633 },    // UCSB → Auckland
-  { startLat:34.4133, startLng:-119.8610, endLat:9.8482, endLng:126.0458 },      // UCSB → Siargao
-  { startLat:9.8482, startLng:126.0458, endLat:16.0544, endLng:108.2022 },       // Siargao → Da Nang
+  { startLat:38.4605, startLng:-122.9465, endLat:34.4133, endLng:-119.8610 },
+  { startLat:38.4605, startLng:-122.9465, endLat:41.6611, endLng:-91.5302 },
+  { startLat:38.4605, startLng:-122.9465, endLat:47.6062, endLng:-122.3321 },
+  { startLat:34.4133, startLng:-119.8610, endLat:-36.8485, endLng:174.7633 },
+  { startLat:34.4133, startLng:-119.8610, endLat:9.8482, endLng:126.0458 },
+  { startLat:9.8482, startLng:126.0458, endLat:16.0544, endLng:108.2022 },
 ];
 
 const container = document.getElementById('globe-container');
 
 if (typeof Globe !== 'undefined') {
-
-const pinSvg = `<svg viewBox="0 0 24 36" xmlns="http://www.w3.org/2000/svg">
-  <path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 24 12 24s12-15 12-24C24 5.4 18.6 0 12 0z" fill="PIN_COLOR"/>
-  <circle cx="12" cy="11" r="4.5" fill="#08080f"/>
-</svg>`;
 
 const globe = Globe()
   .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
@@ -508,28 +516,71 @@ const globe = Globe()
   .backgroundImageUrl('https://unpkg.com/three-globe/example/img/night-sky.png')
   .atmosphereColor('#4fc3f7')
   .atmosphereAltitude(0.2)
+  // Animated beacon markers
   .htmlElementsData(locations)
   .htmlLat('lat')
   .htmlLng('lng')
-  .htmlAltitude(0.01)
+  .htmlAltitude(0.005)
   .htmlElement(d => {
-    const el = document.createElement('div');
-    el.style.width = '22px';
-    el.style.height = '33px';
-    el.style.cursor = 'pointer';
-    el.style.transition = 'transform 0.2s, filter 0.2s';
-    el.style.transformOrigin = 'bottom center';
-    el.innerHTML = pinSvg.replace('PIN_COLOR', d.color);
-    el.onmouseenter = () => { el.style.transform = 'scale(1.3) translateY(-4px)'; el.style.filter = 'drop-shadow(0 0 6px ' + d.color + ')'; };
-    el.onmouseleave = () => { el.style.transform = 'scale(1)'; el.style.filter = 'none'; };
-    el.onclick = () => showCard(d);
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'position:relative;cursor:pointer;display:flex;flex-direction:column;align-items:center;';
+
+    // Light beam shooting up
+    const beam = document.createElement('div');
+    beam.style.cssText = `
+      width:2px; height:60px; position:absolute; bottom:4px; left:50%; transform:translateX(-50%);
+      background:linear-gradient(to top, ${d.color}, transparent);
+      opacity:0.5; animation: beacon-shoot 2.5s ease-out infinite;
+      pointer-events:none;
+    `;
+
+    // Glowing core dot
+    const core = document.createElement('div');
+    core.style.cssText = `
+      width:8px; height:8px; border-radius:50%;
+      background:${d.color};
+      box-shadow: 0 0 8px ${d.color}, 0 0 16px ${d.color}44, 0 0 24px ${d.color}22;
+      animation: beacon-pulse 2s ease-in-out infinite;
+      position:relative; z-index:2;
+    `;
+
+    // Expanding ring
+    const ring = document.createElement('div');
+    ring.style.cssText = `
+      position:absolute; bottom:0; left:50%; transform:translate(-50%, 50%);
+      border-radius:50%; border:1px solid ${d.color};
+      animation: beacon-ring 2.5s ease-out infinite;
+      pointer-events:none;
+    `;
+
+    // Label
     const label = document.createElement('div');
     label.textContent = d.label;
-    label.style.cssText = 'position:absolute;top:100%;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:Outfit,sans-serif;font-size:10px;color:#e8e8f0;background:rgba(12,12,20,0.75);padding:2px 6px;border-radius:3px;margin-top:2px;pointer-events:none;';
-    el.style.position = 'relative';
-    el.appendChild(label);
-    return el;
+    label.style.cssText = 'position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);white-space:nowrap;font-family:Outfit,sans-serif;font-size:10px;color:#e8e8f0;background:rgba(12,12,20,0.8);padding:2px 8px;border-radius:3px;pointer-events:none;letter-spacing:0.5px;';
+
+    wrapper.appendChild(beam);
+    wrapper.appendChild(core);
+    wrapper.appendChild(ring);
+    wrapper.appendChild(label);
+
+    // Hover effect
+    wrapper.onmouseenter = () => {
+      core.style.transform = 'scale(1.6)';
+      core.style.boxShadow = `0 0 12px ${d.color}, 0 0 24px ${d.color}66, 0 0 40px ${d.color}33`;
+      beam.style.opacity = '0.9';
+      beam.style.height = '80px';
+    };
+    wrapper.onmouseleave = () => {
+      core.style.transform = 'scale(1)';
+      core.style.boxShadow = `0 0 8px ${d.color}, 0 0 16px ${d.color}44, 0 0 24px ${d.color}22`;
+      beam.style.opacity = '0.5';
+      beam.style.height = '60px';
+    };
+    wrapper.onclick = () => showCard(d);
+
+    return wrapper;
   })
+  // Arcs
   .arcsData(arcs)
   .arcColor(() => ['#4fc3f770', '#b388ff70'])
   .arcStroke(0.5)
