@@ -48,16 +48,28 @@
   .hero-header { position:relative; z-index:2; text-align:center; padding:7rem 1.5rem 2rem; flex-shrink:0; }
   .hero-header h1 {
     font-size:clamp(2.8rem,6vw,5.5rem); font-weight:700; letter-spacing:-1px; line-height:1.1; margin-bottom:0.8rem;
-    background:linear-gradient(135deg,#fff 0%,var(--accent) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    background: linear-gradient(135deg, #4fc3f7 0%, #b388ff 30%, #4fc3f7 60%, #b388ff 100%);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: nameGradient 6s ease infinite;
+  }
+  @keyframes nameGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
   .hero-header .hero-subtitle { font-size:clamp(0.95rem,1.8vw,1.2rem); color:var(--text-secondary); font-weight:300; letter-spacing:2px; text-transform:uppercase; margin-bottom:0.4rem; }
   .hero-header .hero-detail { font-size:0.88rem; color:var(--text-muted); letter-spacing:1px; }
   .hero-header .cta-row { margin-top:1.8rem; display:flex; gap:1rem; justify-content:center; }
-  .btn-primary,.btn-ghost { padding:0.75rem 2rem; border-radius:6px; font-family:var(--font-display); font-size:0.85rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; text-decoration:none; transition:all 0.3s; min-width:180px; text-align:center; display:inline-block; border:1px solid transparent; }
-  .btn-primary { background:var(--accent); color:var(--bg-primary); border-color:var(--accent); }
+  .btn-primary {
+    padding:0.75rem 2rem; border-radius:6px; font-family:var(--font-display); font-size:0.85rem; font-weight:600;
+    letter-spacing:1px; text-transform:uppercase; cursor:pointer; text-decoration:none; transition:all 0.3s;
+    min-width:180px; text-align:center; display:inline-block;
+    background:var(--accent); color:var(--bg-primary); border:1px solid var(--accent);
+  }
   .btn-primary:hover { box-shadow:0 0 25px var(--accent-glow); transform:translateY(-2px); }
-  .btn-ghost { background:transparent; color:var(--accent); border:1px solid var(--accent); }
-  .btn-ghost:hover { background:var(--accent-dim); }
   #globe-container { flex:1; min-height:500px; position:relative; z-index:1; }
   .scroll-indicator { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); z-index:3; display:flex; flex-direction:column; align-items:center; gap:0.5rem; animation:float 2.5s ease-in-out infinite; }
   .scroll-indicator span { font-size:0.7rem; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); }
@@ -144,21 +156,6 @@
   .fade-in { opacity:0; transform:translateY(30px); transition:opacity 0.8s ease,transform 0.8s ease; }
   .fade-in.visible { opacity:1; transform:translateY(0); }
 
-  /* BEACON ANIMATIONS */
-  @keyframes beacon-pulse {
-    0%, 100% { opacity: 0.7; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.3); }
-  }
-  @keyframes beacon-shoot {
-    0% { height: 0; opacity: 0.8; }
-    40% { height: 60px; opacity: 0.6; }
-    100% { height: 60px; opacity: 0.3; }
-  }
-  @keyframes beacon-ring {
-    0% { width: 6px; height: 6px; opacity: 0.6; }
-    100% { width: 40px; height: 40px; opacity: 0; }
-  }
-
   @media (max-width:768px) {
     nav { padding:1rem 1.5rem; }
     .nav-links { gap:1.2rem; }
@@ -190,7 +187,7 @@
     <p class="hero-detail">UC Santa Barbara · Class of 2026</p>
     <div class="cta-row">
       <a href="#skills" class="btn-primary">View Skills</a>
-      <a href="#contact" class="btn-ghost">Get in Touch</a>
+      <a href="#contact" class="btn-primary">Get in Touch</a>
     </div>
   </div>
   <div id="globe-container"></div>
@@ -516,12 +513,12 @@ const globe = Globe()
   .backgroundImageUrl('https://unpkg.com/three-globe/example/img/night-sky.png')
   .atmosphereColor('#4fc3f7')
   .atmosphereAltitude(0.2)
-  // 3D beacon columns (perpendicular to surface)
+  // 3D beacon columns (perpendicular to surface, fixed height)
   .pointsData(locations)
   .pointLat('lat')
   .pointLng('lng')
-  .pointAltitude(0.22)
-  .pointRadius(0.25)
+  .pointAltitude(0.35)
+  .pointRadius(0.3)
   .pointColor('color')
   .pointResolution(6)
   .onPointClick(d => showCard(d))
@@ -529,7 +526,7 @@ const globe = Globe()
   .htmlElementsData(locations)
   .htmlLat('lat')
   .htmlLng('lng')
-  .htmlAltitude(0.23)
+  .htmlAltitude(0.36)
   .htmlElement(d => {
     const wrapper = document.createElement('div');
     wrapper.style.cssText = 'cursor:pointer;display:flex;flex-direction:column;align-items:center;';
@@ -549,30 +546,6 @@ const globe = Globe()
   .arcDashAnimateTime(2500)
   .arcAltitudeAutoScale(0.4)
   (container);
-
-// Make the beacon columns glow by replacing material with emissive
-const scene = globe.scene();
-setTimeout(() => {
-  if (typeof THREE !== 'undefined') {
-    scene.traverse((obj) => {
-      if (obj.isMesh && obj.__globeObjType === 'points') {
-        // Skip — Globe.gl doesn't tag these easily
-      }
-    });
-  }
-}, 500);
-
-// Animate beacon height pulsing
-let pulseDir = 1;
-let pulseVal = 0.22;
-function animateBeacons() {
-  pulseVal += 0.0008 * pulseDir;
-  if (pulseVal > 0.26) pulseDir = -1;
-  if (pulseVal < 0.20) pulseDir = 1;
-  globe.pointAltitude(pulseVal);
-  requestAnimationFrame(animateBeacons);
-}
-animateBeacons();
 
 globe.controls().autoRotate = false;
 globe.controls().enableZoom = true;
