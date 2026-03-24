@@ -53,8 +53,8 @@
   .hero-header .hero-subtitle { font-size:clamp(0.95rem,1.8vw,1.2rem); color:var(--text-secondary); font-weight:300; letter-spacing:2px; text-transform:uppercase; margin-bottom:0.4rem; }
   .hero-header .hero-detail { font-size:0.88rem; color:var(--text-muted); letter-spacing:1px; }
   .hero-header .cta-row { margin-top:1.8rem; display:flex; gap:1rem; justify-content:center; }
-  .btn-primary,.btn-ghost { padding:0.75rem 2rem; border-radius:6px; font-family:var(--font-display); font-size:0.85rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; text-decoration:none; transition:all 0.3s; }
-  .btn-primary { background:var(--accent); color:var(--bg-primary); border:none; }
+  .btn-primary,.btn-ghost { padding:0.75rem 2rem; border-radius:6px; font-family:var(--font-display); font-size:0.85rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; text-decoration:none; transition:all 0.3s; min-width:180px; text-align:center; display:inline-block; border:1px solid transparent; }
+  .btn-primary { background:var(--accent); color:var(--bg-primary); border-color:var(--accent); }
   .btn-primary:hover { box-shadow:0 0 25px var(--accent-glow); transform:translateY(-2px); }
   .btn-ghost { background:transparent; color:var(--accent); border:1px solid var(--accent); }
   .btn-ghost:hover { background:var(--accent-dim); }
@@ -172,7 +172,7 @@
   <div class="hero-header">
     <h1>Jai Woods</h1>
     <p class="hero-subtitle">Economics &amp; Geography (GIS)</p>
-    <p class="hero-detail">UC Santa Barbara · Class of 2026 · 3.5 GPA</p>
+    <p class="hero-detail">UC Santa Barbara · Class of 2026</p>
     <div class="cta-row">
       <a href="#skills" class="btn-primary">View Skills</a>
       <a href="#contact" class="btn-ghost">Get in Touch</a>
@@ -201,9 +201,9 @@
     <div class="section-divider"></div>
   </div>
   <div class="about-text fade-in">
-    <p>I'm a fourth-year student at UC Santa Barbara double majoring in Economics and Geography with a GIS emphasis. My work sits at the intersection of spatial analysis, economic systems, and emerging technology.</p>
-    <p>I'm a GIS analyst with experience in remote sensing, LiDAR data, and spatial modeling. I'm currently studying for the FAA Part 107 Remote Pilot License and have hands-on experience operating drones for research and content creation.</p>
-    <p>Outside of academics, I enjoy videography, music production, and DJing as creative hobbies. I'm exploring how geospatial intelligence, real estate analytics, and drone technology converge — and looking for opportunities to put that to work.</p>
+    <p>Hello! I'm a fourth-year student soon to graduate from UC Santa Barbara double majoring in Economics and Geography with an emphasis in GIS. My work sits at the intersection of spatial analysis, economic systems, and emerging technology.</p>
+    <p>As a GIS analyst with experience in remote sensing, LiDAR data, and spatial modeling, I am fascinated by how spatial thinking can be applied to businesses for improved efficiency, growth, and site selection. I'm currently studying for the FAA Part 107 Remote Pilot License and have hands-on experience operating drones for research and content creation.</p>
+    <p>I'm exploring how geospatial intelligence, real estate analytics, and drone technology converge, and I'm looking for opportunities to put that to work. If you need a real estate analyst who also understands the spatial dimension of investment as well as the financial side, I am the perfect candidate for your role.</p>
   </div>
 </section>
 
@@ -318,7 +318,7 @@
         </div>
         <div class="skill-item">
           <span>Accounting & Finance</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div><div class="skill-dot"></div></div>
+          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div>
         </div>
       </div>
 
@@ -331,7 +331,7 @@
         </div>
         <div class="skill-item">
           <span>R</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div><div class="skill-dot"></div></div>
+          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div>
         </div>
         <div class="skill-item">
           <span>JavaScript</span>
@@ -377,7 +377,7 @@
       <div class="education-block">
         <h3>UC Santa Barbara</h3>
         <p>B.A. Economics & B.A. Geography (GIS Emphasis)</p>
-        <p style="color:var(--accent); margin-top:0.3rem; font-size:0.8rem;">Class of 2026 · GPA: 3.5</p>
+        <p style="color:var(--accent); margin-top:0.3rem; font-size:0.8rem;">Class of 2026</p>
       </div>
 
       <div class="cert-block">
@@ -408,6 +408,10 @@
           <span class="pill">Remote Sensing</span>
           <span class="pill">Statistics</span>
           <span class="pill">Computer Science</span>
+          <span class="pill">Environmental Science</span>
+          <span class="pill">Economic Geography</span>
+          <span class="pill">GIS</span>
+          <span class="pill">Accounting</span>
         </div>
       </div>
 
@@ -434,10 +438,12 @@
           <span class="pill">Videography</span>
           <span class="pill">Graphic Design</span>
           <span class="pill">Social Media Content</span>
-          <span class="pill">Accounting & Banking</span>
         </div>
       </div>
     </div>
+  </div>
+  <div style="text-align:center; margin-top:3rem;" class="fade-in">
+    <a href="resume_april_2026.pdf" download class="btn-primary" style="display:inline-block;">↓ Download Resume (PDF)</a>
   </div>
 </section>
 
@@ -449,7 +455,7 @@
     <div class="section-divider"></div>
     <p class="contact-text">Open to remote opportunities in GIS analysis, real estate analytics, and spatial data. Always down to talk economics, geography, or creative projects.</p>
     <div class="contact-links">
-      <a href="#" id="emailLink" class="contact-link">✉ Email</a>
+      <a href="resume_april_2026.pdf" class="contact-link" target="_blank">✉ Email (on Resume)</a>
       <a href="https://www.linkedin.com/in/jai-woods-3402a1229" class="contact-link" target="_blank">in LinkedIn</a>
       <a href="https://github.com/jaiwoods" class="contact-link" target="_blank">⌨ GitHub</a>
     </div>
@@ -467,36 +473,24 @@ if (typeof Globe === 'undefined') {
 }
 </script>
 <script>
-// ---- EMAIL OBFUSCATION ----
-(function(){
-  var u = 'jaiwoods';
-  var d = 'icloud.com';
-  var el = document.getElementById('emailLink');
-  el.href = 'mai' + 'lto:' + u + '@' + d;
-  el.title = u + '@' + d;
-})();
-
 // ---- LOCATION DATA ----
 const locations = [
-  { lat:38.4605, lng:-122.9465, label:"Occidental, CA", category:"HOME", title:"Occidental, CA", body:"Home base — Sonoma County. Where it all started.", color:"#4fc3f7" },
+  { lat:38.4605, lng:-122.9465, label:"Sonoma County", category:"HOME", title:"Sonoma County, CA", body:"Home base — the rolling hills of West Sonoma County. Where it all started.", color:"#4fc3f7" },
   { lat:34.4133, lng:-119.8610, label:"UCSB", category:"EDUCATION", title:"UC Santa Barbara", body:"Double major in Economics and Geography (GIS emphasis). Class of 2026. Where spatial analysis and economic theory clicked together.", color:"#4fc3f7" },
   { lat:41.6611, lng:-91.5302, label:"Iowa City", category:"RESEARCH", title:"University of Iowa", body:"Edge of Space Program — drone-based LiDAR research over Ashton Prairie. 3D printed sensor housings, assembled Raspberry Pi payloads, launched 6 flights, and presented findings at a research symposium.", color:"#4fc3f7" },
-  { lat:33.9425, lng:-118.4081, label:"LAX", category:"TRANSIT", title:"Los Angeles (LAX)", body:"Gateway to the Pacific — departure point for travel to New Zealand and Southeast Asia.", color:"#4fc3f7" },
+  { lat:47.6062, lng:-122.3321, label:"Seattle", category:"TRAVEL", title:"Seattle, WA", body:"The Pacific Northwest — exploring the intersection of tech, nature, and urban geography.", color:"#4fc3f7" },
   { lat:-36.8485, lng:174.7633, label:"Auckland", category:"TRAVEL", title:"Auckland, New Zealand", body:"Explored Aotearoa — experiencing Polynesian culture and landscapes on the other side of the Pacific.", color:"#b388ff" },
   { lat:16.0544, lng:108.2022, label:"Da Nang", category:"TRAVEL", title:"Da Nang, Vietnam", body:"Three-week deep dive into Vietnam's fastest-growing city. Exploring FDI trends, China+1 dynamics, and content creation on the coast.", color:"#b388ff" },
-  { lat:9.8482, lng:126.0458, label:"Siargao", category:"TRAVEL", title:"Siargao, Philippines", body:"Island life and aerial content. Captured drone footage across the surf capital of the Philippines.", color:"#b388ff" },
-  { lat:16.4637, lng:107.5909, label:"Huế", category:"TRAVEL", title:"Huế, Vietnam", body:"Imperial citadel and cultural heartland. Exploring Vietnam's historical capital and its economic transition.", color:"#b388ff" },
-  { lat:15.8801, lng:108.3380, label:"Hội An", category:"TRAVEL", title:"Hội An, Vietnam", body:"Ancient trading port turned creative hub. Lantern-lit streets and a lens into Vietnam's tourism economy.", color:"#b388ff" }
+  { lat:9.8482, lng:126.0458, label:"Siargao", category:"TRAVEL", title:"Siargao, Philippines", body:"Island life and aerial content. Captured drone footage across the surf capital of the Philippines.", color:"#b388ff" }
 ];
 
 const arcs = [
-  { startLat:38.4605, startLng:-122.9465, endLat:34.4133, endLng:-119.8610 },
-  { startLat:38.4605, startLng:-122.9465, endLat:41.6611, endLng:-91.5302 },
-  { startLat:33.9425, startLng:-118.4081, endLat:-36.8485, endLng:174.7633 },
-  { startLat:34.4133, startLng:-119.8610, endLat:9.8482, endLng:126.0458 },
-  { startLat:9.8482, startLng:126.0458, endLat:16.0544, endLng:108.2022 },
-  { startLat:16.0544, startLng:108.2022, endLat:15.8801, endLng:108.3380 },
-  { startLat:16.0544, startLng:108.2022, endLat:16.4637, endLng:107.5909 },
+  { startLat:38.4605, startLng:-122.9465, endLat:34.4133, endLng:-119.8610 },   // Sonoma → UCSB
+  { startLat:38.4605, startLng:-122.9465, endLat:41.6611, endLng:-91.5302 },     // Sonoma → Iowa City
+  { startLat:38.4605, startLng:-122.9465, endLat:47.6062, endLng:-122.3321 },    // Sonoma → Seattle
+  { startLat:34.4133, startLng:-119.8610, endLat:-36.8485, endLng:174.7633 },    // UCSB → Auckland
+  { startLat:34.4133, startLng:-119.8610, endLat:9.8482, endLng:126.0458 },      // UCSB → Siargao
+  { startLat:9.8482, startLng:126.0458, endLat:16.0544, endLng:108.2022 },       // Siargao → Da Nang
 ];
 
 const container = document.getElementById('globe-container');
@@ -545,10 +539,16 @@ const globe = Globe()
   .arcAltitudeAutoScale(0.4)
   (container);
 
-globe.controls().autoRotate = true;
-globe.controls().autoRotateSpeed = 0.4;
+globe.controls().autoRotate = false;
 globe.controls().enableZoom = true;
 globe.pointOfView({ lat: 20, lng: -50, altitude: 2.5 }, 0);
+
+// Brighten the night texture
+const globeMaterial = globe.globeMaterial();
+if (typeof THREE !== 'undefined') {
+  globeMaterial.emissive = new THREE.Color(0x226688);
+  globeMaterial.emissiveIntensity = 0.25;
+}
 
 function handleResize() { globe.width(container.offsetWidth); globe.height(container.offsetHeight); }
 window.addEventListener('resize', handleResize);
@@ -563,12 +563,10 @@ function showCard(d) {
   document.getElementById('cardBody').textContent = d.body;
   infoCard.classList.add('visible');
   cardBackdrop.classList.add('visible');
-  globe.controls().autoRotate = false;
 }
 function hideCard() {
   infoCard.classList.remove('visible');
   cardBackdrop.classList.remove('visible');
-  globe.controls().autoRotate = true;
 }
 document.getElementById('closeCard').addEventListener('click', hideCard);
 cardBackdrop.addEventListener('click', hideCard);
