@@ -16,7 +16,7 @@
     --accent-dim: rgba(79, 195, 247, 0.15);
     --accent-glow: rgba(79, 195, 247, 0.4);
     --text-primary: #e8e8f0;
-    --text-secondary: #8888a8;
+    --text-secondary: #a8a0c0;
     --text-muted: #555570;
     --border: rgba(255,255,255,0.06);
     --font-display: 'Outfit', sans-serif;
@@ -27,7 +27,6 @@
   html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--text-muted) var(--bg-primary); }
   body { background: var(--bg-primary); color: var(--text-primary); font-family: var(--font-display); overflow-x: hidden; }
 
-  /* NAV */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     padding: 1.2rem 2.5rem; display: flex; justify-content: space-between; align-items: center;
@@ -43,16 +42,13 @@
   .nav-links a:hover { color: var(--text-primary); }
   .nav-links a:hover::after { width: 100%; }
 
-  /* HERO */
   #hero { position:relative; width:100%; min-height:100vh; display:flex; flex-direction:column; overflow:hidden; }
   .hero-header { position:relative; z-index:2; text-align:center; padding:7rem 1.5rem 2rem; flex-shrink:0; }
   .hero-header h1 {
     font-size:clamp(2.8rem,6vw,5.5rem); font-weight:700; letter-spacing:-1px; line-height:1.1; margin-bottom:0.8rem;
     background: linear-gradient(135deg, #4fc3f7 0%, #b388ff 30%, #4fc3f7 60%, #b388ff 100%);
     background-size: 300% 300%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     animation: nameGradient 6s ease infinite;
   }
   @keyframes nameGradient {
@@ -63,20 +59,50 @@
   .hero-header .hero-subtitle { font-size:clamp(0.95rem,1.8vw,1.2rem); color:var(--text-secondary); font-weight:300; letter-spacing:2px; text-transform:uppercase; margin-bottom:0.4rem; }
   .hero-header .hero-detail { font-size:0.88rem; color:var(--text-muted); letter-spacing:1px; }
   .hero-header .cta-row { margin-top:1.8rem; display:flex; gap:1rem; justify-content:center; }
+
+  /* Buttons — matching globe label style */
+  .btn-hero {
+    padding: 0.65rem 1.8rem;
+    border-radius: 5px;
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    min-width: 175px;
+    text-align: center;
+    display: inline-block;
+    background: rgba(12, 12, 20, 0.85);
+    color: #fff;
+    border: 1px solid rgba(79, 195, 247, 0.25);
+    text-shadow: 0 0 8px rgba(79, 195, 247, 0.4);
+  }
+  .btn-hero:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(79, 195, 247, 0.25), 0 0 40px rgba(79, 195, 247, 0.1);
+    color: var(--accent);
+    transform: translateY(-2px);
+    text-shadow: 0 0 12px rgba(79, 195, 247, 0.6);
+  }
+
+  /* Resume download button stays solid accent */
   .btn-primary {
     padding:0.75rem 2rem; border-radius:6px; font-family:var(--font-display); font-size:0.85rem; font-weight:600;
     letter-spacing:1px; text-transform:uppercase; cursor:pointer; text-decoration:none; transition:all 0.3s;
-    min-width:180px; text-align:center; display:inline-block;
+    text-align:center; display:inline-block;
     background:var(--accent); color:var(--bg-primary); border:1px solid var(--accent);
   }
   .btn-primary:hover { box-shadow:0 0 25px var(--accent-glow); transform:translateY(-2px); }
+
   #globe-container { flex:1; min-height:500px; position:relative; z-index:1; }
   .scroll-indicator { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); z-index:3; display:flex; flex-direction:column; align-items:center; gap:0.5rem; animation:float 2.5s ease-in-out infinite; }
   .scroll-indicator span { font-size:0.7rem; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); }
   .scroll-line { width:1px; height:40px; background:linear-gradient(to bottom,var(--accent),transparent); }
   @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
 
-  /* INFO CARD */
   .info-card { position:fixed; z-index:200; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.92); background:var(--bg-card); border:1px solid var(--border); border-radius:14px; padding:2.2rem 2.5rem; max-width:380px; width:90%; opacity:0; pointer-events:none; transition:all 0.35s cubic-bezier(.4,0,.2,1); box-shadow:0 30px 80px rgba(0,0,0,0.6); }
   .info-card.visible { opacity:1; pointer-events:all; transform:translate(-50%,-50%) scale(1); }
   .info-card .card-label { font-family:var(--font-mono); font-size:0.7rem; color:var(--accent); letter-spacing:2px; text-transform:uppercase; margin-bottom:0.5rem; }
@@ -87,16 +113,13 @@
   .card-backdrop { position:fixed; inset:0; z-index:199; background:rgba(0,0,0,0.5); opacity:0; pointer-events:none; transition:opacity 0.3s; }
   .card-backdrop.visible { opacity:1; pointer-events:all; }
 
-  /* SECTIONS */
   section.content-section { padding:6rem 2.5rem; max-width:1000px; margin:0 auto; }
   .section-label { font-family:var(--font-mono); font-size:0.72rem; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:0.8rem; }
   .section-title { font-size:clamp(1.8rem,3.5vw,2.6rem); font-weight:700; margin-bottom:1.5rem; letter-spacing:-0.5px; }
   .section-divider { width:50px; height:2px; background:var(--accent); margin-bottom:2.5rem; }
 
-  /* ABOUT */
   .about-text p { font-size:1rem; line-height:1.8; color:var(--text-secondary); margin-bottom:1.2rem; max-width:720px; }
 
-  /* SKILLS CARDS */
   .projects-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; }
   .project-card { background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:2rem; transition:all 0.35s; position:relative; overflow:hidden; }
   .project-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--accent),#b388ff); opacity:0; transition:opacity 0.3s; }
@@ -108,47 +131,27 @@
   .project-tags { display:flex; flex-wrap:wrap; gap:0.4rem; }
   .tag { font-family:var(--font-mono); font-size:0.65rem; padding:0.3rem 0.65rem; background:var(--accent-dim); color:var(--accent); border-radius:4px; letter-spacing:0.5px; }
 
-  /* RESUME — dot ratings */
   .skills-layout { display:grid; grid-template-columns:1fr 1fr; gap:3rem; }
   .skill-group h3 { font-size:0.9rem; font-weight:600; margin-bottom:1.2rem; color:var(--text-primary); }
   .skill-item { display:flex; justify-content:space-between; align-items:center; padding:0.65rem 0; border-bottom:1px solid var(--border); }
   .skill-item span { font-size:0.88rem; color:var(--text-secondary); }
   .skill-dots { display:flex; gap:5px; }
-  .skill-dot {
-    width: 10px; height: 10px; border-radius: 50%;
-    border: 1.5px solid var(--accent);
-    transition: all 0.3s;
-  }
-  .skill-dot.filled {
-    background: var(--accent);
-    box-shadow: 0 0 6px rgba(79,195,247,0.3);
-  }
+  .skill-dot { width:10px; height:10px; border-radius:50%; border:1.5px solid var(--accent); transition:all 0.3s; }
+  .skill-dot.filled { background:var(--accent); box-shadow:0 0 6px rgba(79,195,247,0.3); }
 
-  .education-block, .cert-block, .experience-block {
-    background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:1.8rem; margin-top:1.5rem;
-  }
+  .education-block, .cert-block, .experience-block { background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:1.8rem; margin-top:1.5rem; }
   .education-block h3, .cert-block h3, .experience-block h3 { font-size:1rem; font-weight:600; margin-bottom:0.3rem; }
   .education-block p, .cert-block p, .experience-block p { font-size:0.88rem; color:var(--text-secondary); line-height:1.6; }
   .experience-block .exp-role { font-size:0.78rem; color:var(--accent); margin-top:0.2rem; margin-bottom:0.5rem; }
 
-  /* Tag-pill lists */
   .pill-list { display:flex; flex-wrap:wrap; gap:0.45rem; margin-top:0.7rem; }
-  .pill {
-    font-family:var(--font-mono); font-size:0.68rem; padding:0.3rem 0.7rem;
-    background:var(--bg-secondary); border:1px solid var(--border); border-radius:20px;
-    color:var(--text-secondary); letter-spacing:0.3px;
-  }
+  .pill { font-family:var(--font-mono); font-size:0.68rem; padding:0.3rem 0.7rem; background:var(--bg-secondary); border:1px solid var(--border); border-radius:20px; color:var(--text-secondary); letter-spacing:0.3px; }
 
-  /* CONTACT */
   #contact { text-align:center; padding-bottom:8rem; }
   #contact .section-divider { margin:0 auto 2.5rem; }
   .contact-text { font-size:1.05rem; color:var(--text-secondary); line-height:1.7; max-width:520px; margin:0 auto 2.5rem; }
   .contact-links { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; }
-  .contact-link {
-    display:inline-flex; align-items:center; gap:0.5rem; padding:0.7rem 1.5rem;
-    background:var(--bg-card); border:1px solid var(--border); border-radius:8px;
-    color:var(--text-secondary); text-decoration:none; font-size:0.85rem; transition:all 0.3s;
-  }
+  .contact-link { display:inline-flex; align-items:center; gap:0.5rem; padding:0.7rem 1.5rem; background:var(--bg-card); border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); text-decoration:none; font-size:0.85rem; transition:all 0.3s; }
   .contact-link:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,0,0,0.3); }
 
   footer { text-align:center; padding:2rem; border-top:1px solid var(--border); font-size:0.75rem; color:var(--text-muted); letter-spacing:1px; }
@@ -186,8 +189,8 @@
     <p class="hero-subtitle">Economics &amp; Geography (GIS)</p>
     <p class="hero-detail">UC Santa Barbara · Class of 2026</p>
     <div class="cta-row">
-      <a href="#skills" class="btn-primary">View Skills</a>
-      <a href="#contact" class="btn-primary">Get in Touch</a>
+      <a href="#skills" class="btn-hero">View Skills</a>
+      <a href="#contact" class="btn-hero">Get in Touch</a>
     </div>
   </div>
   <div id="globe-container"></div>
@@ -205,7 +208,6 @@
   <p id="cardBody"></p>
 </div>
 
-<!-- ABOUT -->
 <section id="about" class="content-section">
   <div class="fade-in">
     <div class="section-label">01 — About</div>
@@ -214,12 +216,11 @@
   </div>
   <div class="about-text fade-in">
     <p>Hello! I'm a fourth-year student soon to graduate from UC Santa Barbara double majoring in Economics and Geography with an emphasis in GIS. My work sits at the intersection of spatial analysis, economic systems, and emerging technology.</p>
-    <p>As a GIS analyst with experience in remote sensing, LiDAR data, and spatial modeling, I am fascinated by how spatial thinking can be applied to businesses for improved efficiency, growth, and site selection. I'm currently studying for the FAA Part 107 Remote Pilot License and have hands-on experience operating drones for research and content creation.</p>
-    <p>I'm exploring how geospatial intelligence, real estate analytics, and drone technology converge, and I'm looking for opportunities to put that to work. If you need a real estate analyst who also understands the spatial dimension of investment as well as the financial side, I am the perfect candidate for your role.</p>
+    <p>As a GIS analyst with experience in remote sensing, LiDAR data, and spatial modeling, I am fascinated by how spatial thinking can be applied to business and development for improved efficiency, growth, and site selection. I'm currently studying for the FAA Part 107 Remote Pilot License and have hands-on experience operating drones for research and content creation.</p>
+    <p>I'm exploring how geospatial intelligence, real estate analytics, and drone technology converge, and I'm looking for opportunities to put that to work. If you need someone who understands the spatial dimension of investment as well as the financial side, I am the perfect candidate for your role. In the real estate investment and development world, these roles tend to be separate, with geospatial professionals and financial modelers speaking different languages. I aspire to bridge that gap and synergize these roles, pulling from my education and experience in both.</p>
   </div>
 </section>
 
-<!-- SKILLS -->
 <section id="skills" class="content-section">
   <div class="fade-in">
     <div class="section-label">02 — Skills</div>
@@ -231,72 +232,41 @@
       <div class="project-icon">🌐</div>
       <h3>GIS & Spatial Analysis</h3>
       <p>Geospatial analysis using ArcGIS Pro, QGIS, and Google Earth Engine — suitability analysis, network analysis, LiDAR data management, and classification techniques.</p>
-      <div class="project-tags">
-        <span class="tag">ArcGIS Pro</span>
-        <span class="tag">QGIS</span>
-        <span class="tag">ENVI</span>
-        <span class="tag">Google Earth Engine</span>
-      </div>
+      <div class="project-tags"><span class="tag">ArcGIS Pro</span><span class="tag">QGIS</span><span class="tag">ENVI</span><span class="tag">Google Earth Engine</span></div>
     </div>
     <div class="project-card">
       <div class="project-icon">🚁</div>
       <h3>Aerial Drone Operations</h3>
       <p>Drone operation for research, mapping, and aerial content creation. Currently studying for FAA Part 107 certification.</p>
-      <div class="project-tags">
-        <span class="tag">Part 107 (In Progress)</span>
-        <span class="tag">DJI Drones</span>
-        <span class="tag">LiDAR</span>
-      </div>
+      <div class="project-tags"><span class="tag">Part 107 (In Progress)</span><span class="tag">DJI Drones</span><span class="tag">LiDAR</span></div>
     </div>
     <div class="project-card">
       <div class="project-icon">📊</div>
       <h3>Economic Analysis</h3>
       <p>Applied economic analysis — econometrics, regression modeling, micro and macro theory. Coursework in data science, statistics, and quantitative methods.</p>
-      <div class="project-tags">
-        <span class="tag">Econometrics</span>
-        <span class="tag">R</span>
-        <span class="tag">Python</span>
-        <span class="tag">Data Viz</span>
-      </div>
+      <div class="project-tags"><span class="tag">Econometrics</span><span class="tag">R</span><span class="tag">Python</span><span class="tag">Data Viz</span></div>
     </div>
     <div class="project-card">
       <div class="project-icon">💻</div>
       <h3>Programming</h3>
       <p>Intermediate proficiency across multiple languages. Experience with data analysis, software design, geospatial scripting, and web development.</p>
-      <div class="project-tags">
-        <span class="tag">Python</span>
-        <span class="tag">R</span>
-        <span class="tag">C / C++</span>
-        <span class="tag">C#</span>
-        <span class="tag">HTML</span>
-        <span class="tag">CSS</span>
-        <span class="tag">JavaScript</span>
-      </div>
+      <div class="project-tags"><span class="tag">Python</span><span class="tag">R</span><span class="tag">C / C++</span><span class="tag">C#</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
     </div>
     <div class="project-card">
       <div class="project-icon">🎬</div>
       <h3>Videography & Content</h3>
       <p>Video production and editing as a creative hobby — drone footage, gimbal shooting, and post-production workflows.</p>
-      <div class="project-tags">
-        <span class="tag">DaVinci Resolve</span>
-        <span class="tag">Insta360</span>
-        <span class="tag">YouTube</span>
-      </div>
+      <div class="project-tags"><span class="tag">DaVinci Resolve</span><span class="tag">Insta360</span><span class="tag">YouTube</span></div>
     </div>
     <div class="project-card">
       <div class="project-icon">🎵</div>
       <h3>Electronic Music & DJing</h3>
       <p>Hobby interest in electronic music production and DJ mixing — afrohouse and Melodic Techno genres.</p>
-      <div class="project-tags">
-        <span class="tag">Afrohouse</span>
-        <span class="tag">Melodic Techno</span>
-        <span class="tag">Music Production</span>
-      </div>
+      <div class="project-tags"><span class="tag">Afrohouse</span><span class="tag">Melodic Techno</span><span class="tag">Music Production</span></div>
     </div>
   </div>
 </section>
 
-<!-- RESUME -->
 <section id="resume" class="content-section">
   <div class="fade-in">
     <div class="section-label">03 — Resume</div>
@@ -307,76 +277,33 @@
     <div>
       <div class="skill-group">
         <h3>Skills</h3>
-        <div class="skill-item">
-          <span>GIS / Remote Sensing</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div></div>
-        </div>
-        <div class="skill-item">
-          <span>Economic Analysis</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div>
-        </div>
-        <div class="skill-item">
-          <span>Drone Operations</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div>
-        </div>
-        <div class="skill-item">
-          <span>DaVinci Resolve</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div>
-        </div>
-        <div class="skill-item">
-          <span>Written & Oral Communication</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div></div>
-        </div>
-        <div class="skill-item">
-          <span>Accounting & Finance</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div>
-        </div>
+        <div class="skill-item"><span>GIS / Remote Sensing</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div></div></div>
+        <div class="skill-item"><span>Economic Analysis</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-item"><span>Drone Operations</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-item"><span>DaVinci Resolve</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-item"><span>Written & Oral Communication</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div></div></div>
+        <div class="skill-item"><span>Accounting & Finance</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div></div>
       </div>
-
       <div class="skill-group" style="margin-top:2rem;">
         <h3>Programming Languages</h3>
-        <div class="skill-item">
-          <span>Python</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div>
-        </div>
-        <div class="skill-item">
-          <span>R</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div>
-        </div>
-        <div class="skill-item">
-          <span>JavaScript</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div><div class="skill-dot"></div></div>
-        </div>
-        <div class="skill-item">
-          <span>HTML / CSS</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div><div class="skill-dot"></div></div>
-        </div>
-        <div class="skill-item">
-          <span>C</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div>
-        </div>
-        <div class="skill-item">
-          <span>C++</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div>
-        </div>
-        <div class="skill-item">
-          <span>C#</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div>
-        </div>
+        <div class="skill-item"><span>Python</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-item"><span>R</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-item"><span>JavaScript</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-item"><span>HTML / CSS</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-item"><span>C</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-item"><span>C++</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-item"><span>C#</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
       </div>
-
       <div class="experience-block" style="margin-top:2.5rem;">
         <h3>University of Iowa — Edge of Space Program</h3>
         <p class="exp-role">Physics & Astronomy Dept · July – August 2025</p>
         <p>3D printed sensor payload housing for DJI Matrice 300 RTK. Assembled electronic components including Raspberry Pi, LiDAR sensor, and camera. Launched 6 drone flights over Ashton Prairie collecting LiDAR point data and RGB imagery. Presented findings on vegetation height data at research symposium.</p>
       </div>
-
       <div class="experience-block">
         <h3>The Nature Conservancy — BEL Program</h3>
         <p class="exp-role">Bren Environmental Leadership · June – September 2024</p>
         <p>Spearheaded creation of a user guide for a deep-learning satellite whale-detection tool. Collaborated with NOAA conservationists on whale population protection. Gained experience in machine learning (CNNs) and applied remote sensing for conservation management.</p>
       </div>
-
       <div class="experience-block">
         <h3>Freelance Tradesman</h3>
         <p class="exp-role">Sonoma County, CA · May 2017 – August 2023</p>
@@ -389,65 +316,31 @@
         <p>B.A. Economics & B.A. Geography (GIS Emphasis)</p>
         <p style="color:var(--accent); margin-top:0.3rem; font-size:0.8rem;">Class of 2026</p>
       </div>
-
       <div class="cert-block">
         <h3>FAA Part 107 (In Progress)</h3>
         <p>Studying for Remote Pilot Certificate — Small Unmanned Aircraft Systems</p>
       </div>
-
       <div class="cert-block">
         <h3>Positions</h3>
         <p>Geography Club Co-President — organize events, manage the board, handle outreach</p>
         <p style="margin-top:0.4rem;">Isla Vista Housing Co-op Treasurer — manage $21,000+ in monthly rental revenue, ensure timely payments and accounting</p>
       </div>
-
       <div class="cert-block">
         <h3>Coursework</h3>
         <div class="pill-list">
-          <span class="pill">Econometrics</span>
-          <span class="pill">Regression</span>
-          <span class="pill">Micro Theory</span>
-          <span class="pill">Macro Theory</span>
-          <span class="pill">Data Science</span>
-          <span class="pill">LLMs</span>
-          <span class="pill">Software Design</span>
-          <span class="pill">Suitability Analysis</span>
-          <span class="pill">Network Analysis</span>
-          <span class="pill">LiDAR Data Management</span>
-          <span class="pill">Classification Techniques</span>
-          <span class="pill">Remote Sensing</span>
-          <span class="pill">Statistics</span>
-          <span class="pill">Computer Science</span>
-          <span class="pill">Environmental Science</span>
-          <span class="pill">Economic Geography</span>
-          <span class="pill">GIS</span>
-          <span class="pill">Accounting</span>
+          <span class="pill">Econometrics</span><span class="pill">Regression</span><span class="pill">Micro Theory</span><span class="pill">Macro Theory</span><span class="pill">Data Science</span><span class="pill">LLMs</span><span class="pill">Software Design</span><span class="pill">Suitability Analysis</span><span class="pill">Network Analysis</span><span class="pill">LiDAR Data Management</span><span class="pill">Classification Techniques</span><span class="pill">Remote Sensing</span><span class="pill">Statistics</span><span class="pill">Computer Science</span><span class="pill">Environmental Science</span><span class="pill">Economic Geography</span><span class="pill">GIS</span><span class="pill">Accounting</span>
         </div>
       </div>
-
       <div class="cert-block">
         <h3>Tools & Software</h3>
         <div class="pill-list">
-          <span class="pill">ESRI Suite (ArcGIS Pro, Online)</span>
-          <span class="pill">ENVI</span>
-          <span class="pill">Google Earth Engine</span>
-          <span class="pill">DaVinci Resolve</span>
-          <span class="pill">DJI Drones</span>
-          <span class="pill">Insta360</span>
-          <span class="pill">Microsoft Office</span>
-          <span class="pill">Google Suite</span>
-          <span class="pill">Globe.gl</span>
-          <span class="pill">Three.js</span>
+          <span class="pill">ESRI Suite (ArcGIS Pro, Online)</span><span class="pill">ENVI</span><span class="pill">Google Earth Engine</span><span class="pill">DaVinci Resolve</span><span class="pill">DJI Drones</span><span class="pill">Insta360</span><span class="pill">Microsoft Office</span><span class="pill">Google Suite</span><span class="pill">Globe.gl</span><span class="pill">Three.js</span>
         </div>
       </div>
-
       <div class="cert-block">
         <h3>Other Skills</h3>
         <div class="pill-list">
-          <span class="pill">Photography</span>
-          <span class="pill">Videography</span>
-          <span class="pill">Graphic Design</span>
-          <span class="pill">Social Media Content</span>
+          <span class="pill">Photography</span><span class="pill">Videography</span><span class="pill">Graphic Design</span><span class="pill">Social Media Content</span>
         </div>
       </div>
     </div>
@@ -457,13 +350,12 @@
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact" class="content-section">
   <div class="fade-in">
     <div class="section-label">04 — Contact</div>
     <h2 class="section-title">Let's Connect</h2>
     <div class="section-divider"></div>
-    <p class="contact-text">Open to remote opportunities in GIS analysis, real estate analytics, and spatial data. Always down to talk economics, geography, or creative projects.</p>
+    <p class="contact-text">Open to remote and in-person opportunities in GIS analysis, spatial data science, real estate analytics, and geospatial economic modeling. Always down to talk about economics, geography, or creative projects!</p>
     <div class="contact-links">
       <a href="resume_april_2026.pdf" class="contact-link" target="_blank">✉ Email (on Resume)</a>
       <a href="https://www.linkedin.com/in/jai-woods-3402a1229" class="contact-link" target="_blank">LinkedIn</a>
@@ -483,7 +375,6 @@ if (typeof Globe === 'undefined') {
 }
 </script>
 <script>
-// ---- LOCATION DATA ----
 const locations = [
   { lat:38.4605, lng:-122.9465, label:"Sonoma County", category:"HOME", title:"Sonoma County, CA", body:"Home base — the rolling hills of West Sonoma County. Where it all started.", color:"#4fc3f7" },
   { lat:34.4133, lng:-119.8610, label:"UCSB", category:"EDUCATION", title:"UC Santa Barbara", body:"Double major in Economics and Geography (GIS emphasis). Class of 2026. Where spatial analysis and economic theory clicked together.", color:"#4fc3f7" },
@@ -513,7 +404,6 @@ const globe = Globe()
   .backgroundImageUrl('https://unpkg.com/three-globe/example/img/night-sky.png')
   .atmosphereColor('#4fc3f7')
   .atmosphereAltitude(0.2)
-  // 3D beacon columns (perpendicular to surface, fixed height)
   .pointsData(locations)
   .pointLat('lat')
   .pointLng('lng')
@@ -522,7 +412,7 @@ const globe = Globe()
   .pointColor('color')
   .pointResolution(6)
   .onPointClick(d => showCard(d))
-  // Clickable HTML labels at top of beacons
+  // Interactive HTML labels
   .htmlElementsData(locations)
   .htmlLat('lat')
   .htmlLng('lng')
@@ -530,14 +420,35 @@ const globe = Globe()
   .htmlElement(d => {
     const wrapper = document.createElement('div');
     wrapper.style.cssText = 'cursor:pointer;display:flex;flex-direction:column;align-items:center;';
+
     const label = document.createElement('div');
     label.textContent = d.label;
-    label.style.cssText = 'white-space:nowrap;font-family:Outfit,sans-serif;font-size:11px;font-weight:500;color:#fff;background:rgba(12,12,20,0.85);padding:3px 10px;border-radius:4px;pointer-events:none;letter-spacing:0.5px;border:1px solid ' + d.color + '44;text-shadow:0 0 8px ' + d.color + ';';
-    wrapper.appendChild(label);
+    label.style.cssText = `
+      white-space:nowrap; font-family:Outfit,sans-serif; font-size:11px; font-weight:500;
+      color:#fff; background:rgba(12,12,20,0.85); padding:4px 12px; border-radius:5px;
+      letter-spacing:0.5px; border:1px solid ${d.color}44;
+      text-shadow:0 0 8px ${d.color};
+      transition: all 0.25s ease; cursor:pointer;
+    `;
+
+    // Hover: glow border, brighter text
+    wrapper.onmouseenter = () => {
+      label.style.borderColor = d.color;
+      label.style.boxShadow = '0 0 15px ' + d.color + '44, 0 0 30px ' + d.color + '22';
+      label.style.color = d.color;
+      label.style.textShadow = '0 0 12px ' + d.color;
+    };
+    wrapper.onmouseleave = () => {
+      label.style.borderColor = d.color + '44';
+      label.style.boxShadow = 'none';
+      label.style.color = '#fff';
+      label.style.textShadow = '0 0 8px ' + d.color;
+    };
     wrapper.onclick = () => showCard(d);
+
+    wrapper.appendChild(label);
     return wrapper;
   })
-  // Arcs
   .arcsData(arcs)
   .arcColor(() => ['#4fc3f770', '#b388ff70'])
   .arcStroke(0.5)
@@ -551,7 +462,6 @@ globe.controls().autoRotate = false;
 globe.controls().enableZoom = true;
 globe.pointOfView({ lat: 34.41, lng: -119.86, altitude: 2.5 }, 0);
 
-// Brighten the night texture
 const globeMaterial = globe.globeMaterial();
 if (typeof THREE !== 'undefined') {
   globeMaterial.emissive = new THREE.Color(0x226688);
